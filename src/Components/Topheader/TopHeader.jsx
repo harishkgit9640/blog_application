@@ -1,5 +1,6 @@
 import React from 'react'
 import './topheader.css'
+import usrImage from './user_img.png';
 const TopHeader = () => {
     return (
         <div>
@@ -20,7 +21,7 @@ const TopHeader = () => {
                     </div>
                 </div>
                 <div className="top-right">
-                    <img className="top-img" src="#" alt="top-img" />
+                    <img className="top-img" src={usrImage} alt="top-img" />
                     <i className=" searchIcon fa-solid fa-magnifying-glass"></i>
                 </div>
             </div>

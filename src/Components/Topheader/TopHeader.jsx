@@ -6,10 +6,10 @@ const TopHeader = () => {
         <div>
             <div className="top-bar">
                 <div className="top-left">
-                    <i className=" topSocialIcon fa-brands fa-facebook"></i>
-                    <i className=" topSocialIcon fa-brands fa-instagram"></i>
-                    <i className=" topSocialIcon fa-brands fa-linkedin"></i>
-                    <i className=" topSocialIcon fa-brands fa-github"></i>
+                    <i className=" topIcon fa-brands fa-facebook"></i>
+                    <i className=" topIcon fa-brands fa-instagram"></i>
+                    <i className=" topIcon fa-brands fa-linkedin"></i>
+                    <i className=" topIcon fa-brands fa-github"></i>
                 </div>
                 <div className="top-center">
                     <div className="top-list">

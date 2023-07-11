@@ -15,7 +15,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
+.topIcon {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #444;
+    cursor: pointer;
 }
 
 .top-left i,
@@ -28,6 +34,7 @@
     height: 35px;
     border-radius: 50%;
     margin-right: 15px;
+    object-fit: cover;
     cursor: pointer;
 
 }
@@ -37,13 +44,15 @@
 
 }
 
-li {
+.topListItem {
     list-style: none;
     cursor: pointer;
-    padding: 0 10px;
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
-.top-center .top-list {
+.top-list {
     display: flex;
     align-items: center;
     justify-content: center;

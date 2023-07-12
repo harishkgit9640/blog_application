@@ -33,8 +33,18 @@
     border-bottom: 1px solid #fff;
 }
 
-.registerButton,
-.registerRegister {
+a {
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    color: crimson;
+}
+
+.registerBtn,
+.loginBtn {
     margin-top: 20px;
     cursor: pointer;
     background-color: white;
@@ -46,14 +56,14 @@
     font-weight: 500;
 }
 
-.registerButton {
+.loginBtn {
     color: #fff;
     background: transparent;
     border: 1px solid #fff;
     transition: 0.3s linear;
 }
 
-.registerButton:hover {
+.loginBtn:hover {
     color: blue;
     background: #fff;
 }

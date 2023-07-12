@@ -52,6 +52,15 @@
     font-weight: 600;
 }
 
+.topListItem a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.topListItem a:hover {
+    color: crimson;
+}
+
 .top-list {
     display: flex;
     align-items: center;

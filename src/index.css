@@ -6,3 +6,12 @@
     --opt-1: 'Alata', sans-serif;
     --opt-2: 'Raleway', sans-serif;
   }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a:hover {
+    color: crimson;
+  }

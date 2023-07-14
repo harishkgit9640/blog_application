@@ -4,7 +4,15 @@ const Post = require('../modules/post');
 const bcrypt = require('bcrypt');
 
 //CREATE POST
+router.put('/:id', async (req, res) => {
 
+    try {
+        res.status(200).json("post inserted successfully!")
+    } catch (error) {
+        res.status(404).json(error);
+    }
+
+});
 
 
 //UPDATE POST  

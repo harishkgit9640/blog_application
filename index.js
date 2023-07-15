@@ -2,6 +2,9 @@ const express = require('express')
 const mongoose = require('mongoose');
 const auth = require('./routes/auth');
 const users = require('./routes/Users');
+const posts = require('./routes/Posts');
+const category = require('./routes/Categories');
+const multer = require('multer');
 const app = express()
 
 main().catch(err => console.log(err));
@@ -12,8 +15,25 @@ async function main() {
 app.use(express.json());
 const port = 5000
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "images");
+    },
+    filename: (req, file, cb) => {
+        cb(null, "new.png");
+    }
+});
+
+const upload = multer({ storage: storage });
+app.post("/api/upload", upload.single('file'), (req, res) => {
+    res.status(200).json("file uploaded successfully!");
+});
+
+
 app.use("/api/auth", auth);
-app.use("/api/users", users);
+app.use("/api/user", users);
+app.use("/api/post", posts);
+app.use("/api/categories", category);
 app.get('/', (req, res) => res.send('Hello World!'))
 
 

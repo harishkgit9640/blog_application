@@ -1,55 +1,54 @@
 const router = require('express').Router();
-const User = require('../modules/user');
 const Post = require('../modules/post');
-const bcrypt = require('bcrypt');
 
 //CREATE POST
-router.put('/:id', async (req, res) => {
-
+router.post('/', async (req, res) => {
+    const post = await new Post(req.body)
     try {
-        res.status(200).json("post inserted successfully!")
+        const data = await post.save();
+        res.status(200).json({ "data": data, "message": "post inserted successfully!" })
     } catch (error) {
-        res.status(404).json(error);
+        res.status(400).json({ "error": error.message, "message": "post not inserted!" })
     }
-
 });
-
 
 //UPDATE POST  
 router.put('/:id', async (req, res) => {
-    if (req.params.id === req.params.id) {
-        if (req.body.password) {
-            const salt = await bcrypt.genSalt(10);
-            req.body.password = await bcrypt.hash(req.body.password, salt);
+    try {
+        const post = await Post.findById(req.params.id);
+        if (post.username === req.body.username) {
+            try {
+                const updatedPost = await Post.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+                res.status(200).json(updatedPost);
+            } catch (error) {
+                res.status(500).json(error);
+            }
+        } else {
+            res.status(401).json("you can update only your post!")
         }
-        try {
-            const updatedUser = await User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
-            res.status(200).json(updatedUser);
-        } catch (error) {
-            res.status(500).json(error);
-        }
-    } else {
-        res.status(401).json("you can update only your account!")
+    } catch (error) {
+        res.status(500).json(error);
     }
+
 })
 //DELETE DELETE  
 router.delete('/:id', async (req, res) => {
-    if (req.body.id === req.params.id) {
-        try {
-            const user = await User.findById(req.params.id);
+    try {
+        const post = await Post.findById(req.params.id);
+        if (post.username === req.body.username) {
             try {
-                await Post.deleteMany({ username: user.username })
-                await User.findByIdAndDelete(req.params.id);
-                res.status(200).json("User Deleted Successfully!");
+                const post = await Post.findByIdAndDelete(req.params.id);
+                res.status(200).json({ "message": "post Deleted Successfully!", "response": post });
             } catch (error) {
-                res.status(500).json({ "error": error.message, "user": user });
+                res.status(500).json({ "error": error.message, "post": post });
             }
-        } catch (error) {
-            res.status(404).json({ "Message": "User Not found !", "error": error.message })
+        } else {
+            res.status(401).json("you can delete only your post!")
         }
-    } else {
-        res.status(401).json("you can Delete only your account!")
+    } catch (error) {
+        res.status(500).json(error.message);
     }
+
 })
 
 // FETCH A POST
@@ -57,6 +56,29 @@ router.get('/:id', async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         res.status(200).json(post);
+    } catch (error) {
+        res.status(500).json({ "error": error.message });
+    }
+})
+
+// FETCH ALL POST
+router.get('/', async (req, res) => {
+    const username = req.query.user;
+    const catName = req.query.cat;
+    try {
+        let posts;
+        if (username) {
+            posts = await Post.find({ username: username });
+        } else if (catName) {
+            posts = await Post.find({
+                categories: {
+                    $in: [catName]
+                }
+            });
+        } else {
+            posts = await Post.find();
+        }
+        res.status(200).json(posts);
     } catch (error) {
         res.status(500).json({ "error": error.message });
     }

@@ -6,14 +6,15 @@ const posts = require('./routes/Posts');
 const category = require('./routes/Categories');
 const multer = require('multer');
 const app = express()
-
+// mongodb://localhost:27017
+const url = "mongodb://127.0.0.1:27017/dbblog";
 main().catch(err => console.log(err));
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/dbblog');
+    await mongoose.connect(url);
     // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }
 app.use(express.json());
-const port = 3000;
+const port = 5000;
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

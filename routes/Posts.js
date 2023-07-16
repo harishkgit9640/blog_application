@@ -63,6 +63,16 @@ router.get('/:id', async (req, res) => {
 
 // FETCH ALL POST
 router.get('/', async (req, res) => {
+    try {
+        posts = await Post.find();
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({ "error": error.message });
+    }
+})
+
+//  get posts by user and category
+router.get('/', async (req, res) => {
     const username = req.query.user;
     const catName = req.query.cat;
     try {

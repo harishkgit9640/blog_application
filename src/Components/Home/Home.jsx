@@ -6,12 +6,10 @@ import axios from 'axios';
 
 const Home = () => {
     const [post, setPost] = useState([]);
-
     useEffect(() => {
         const fetchPost = async () => {
             const res = await axios.get('/post');
             setPost(res.data);
-            // console.log(posts.data);
         }
         fetchPost();
     }, []);

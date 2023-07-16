@@ -17,6 +17,7 @@ function App() {
     <>
       <TopHeader />
       <Routes>
+        <Route path='/' element={<Home />} />
         <Route path='/home' element={<Home />} />
         <Route path='/login' element={user ? <Home /> : <Login />} />
         <Route path='/register' element={user ? <Home /> : <Register />} />
@@ -25,7 +26,6 @@ function App() {
         <Route path='/single' element={<SinglePost />} />
       </Routes>
     </>
-
   );
 }
 

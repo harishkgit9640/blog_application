@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './singlePost.css';
+import axios from 'axios';
 
 const SinglePost = () => {
+    const [post, setPost] = useState([]);
+    useEffect(() => {
+        const fetchPost = async () => {
+            const res = await axios.get(`/post`);
+            setPost(res.data);
+            console.log(post);
+        }
+        fetchPost();
+    }, [post]);
     return (
         <div className='singlePost'>
             <div className="singlePostWrapper">

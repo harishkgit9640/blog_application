@@ -1,9 +1,10 @@
 import React from 'react'
 import './login.css';
 import { Link } from 'react-router-dom';
-import { axios } from 'axios';
+import { Axios } from 'axios';
+
 const Login = () => {
-    axios.get('https://localhost:5000/api/register').then((res) => { console.log(res); });
+    Axios.get('https://localhost:5000/api/').then((res) => { console.log(res); });
 
     return (
         <div className='login'>

@@ -1,9 +1,9 @@
 import React from 'react'
 import './topheader.css'
 import usrImage from './user_img.png';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 const TopHeader = () => {
-    const user = false;
+    const user = true;
 
     return (
         <div>
@@ -24,7 +24,7 @@ const TopHeader = () => {
                     </div>
                 </div>
                 <div className="top-right">
-                    {user ? (<img className="top-img" src={usrImage} alt="top-img" />)
+                    {user ? (<Link to="/setting"> <img className="top-img" src={usrImage} alt="top-img" /></Link>)
                         : (<>
                             <div className="top-list">
                                 <li className="topListItem"><NavLink to='/login'> Login </NavLink> </li>

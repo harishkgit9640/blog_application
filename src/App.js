@@ -12,7 +12,7 @@ import { Route, Routes } from 'react-router-dom';
 import SinglePost from './Components/singlepost/SinglePost';
 
 function App() {
-  const user = false;
+  const user = true;
   return (
     <>
       <TopHeader />
@@ -23,7 +23,8 @@ function App() {
         <Route path='/register' element={user ? <Home /> : <Register />} />
         <Route path='/write' element={user ? <Write /> : <Register />} />
         <Route path='/setting' element={user ? <Settings /> : <Register />} />
-        <Route path='/single' element={<SinglePost />} />
+        <Route path='/post/:id' element={<SinglePost />} />
+        <Route path='/post/:user' element={<Home />} />
       </Routes>
     </>
   );

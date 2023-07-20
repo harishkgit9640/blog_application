@@ -1,10 +1,12 @@
 import React from 'react'
 import './register.css';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from 'axios';
 const Register = () => {
 
+    const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -12,7 +14,12 @@ const Register = () => {
             password: ''
         },
         onSubmit: (values) => {
-            alert(JSON.stringify(values));
+            try {
+                axios.post(`/auth/register`, values);
+                navigate('/login');
+            } catch (error) {
+                alert(error);
+            }
         },
         validationSchema: yup.object({
             username: yup.string()
@@ -23,22 +30,22 @@ const Register = () => {
                 .required("E-mail Required"),
 
             password: yup.string()
-                .required("Mobile Required")
+                .required("password Required")
         })
     })
 
     return (
         <div className='register'>
             <span className="registerTitle">Sign Up</span>
-            <form action="" className="registerForm" onSubmit={formik.handleSubmit}>
-                <input type="text" name='name' onChange={formik.handleChange} className='registerInput' placeholder='HARISH KUMAR' />
+            <form className="registerForm">
+                <input type="text" name='username' onChange={formik.handleChange} className='registerInput' placeholder='jon singh' />
                 <span className="text-danger">{formik.errors.username}</span>
                 <input type="email" name='email' onChange={formik.handleChange} className='registerInput' placeholder='harishkumar@gmail.com' />
                 <span className="text-danger">{formik.errors.email}</span>
                 <input type="password" name='password' onChange={formik.handleChange} className='registerInput' placeholder='**************' />
                 <span className="text-danger">{formik.errors.password}</span>
-                <Link to='/register' className="registerBtn">Register</Link>
-                <Link to='/login' className="loginBtn">Log In</Link>
+                <Link to='/register' typeof='submit' className=" btn registerBtn" onClick={formik.handleSubmit} >Register</Link>
+                <Link to='/login' typeof='button' className=" btn loginBtn">Log In</Link>
             </form>
         </div>
     )

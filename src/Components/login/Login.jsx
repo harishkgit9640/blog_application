@@ -1,36 +1,50 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import './login.css';
 import { Link } from 'react-router-dom';
-
+import { useFormik } from 'formik';
+import axios from 'axios';
+import * as yup from "yup";
+import { Context } from '../../context/Context';
 const Login = () => {
+    const { dispatch, isFetching } = useContext(Context)
 
-    const [Data, setData] = useState({ username: "", password: "" });
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: ''
+        },
+        onSubmit: (values) => {
+            dispatch({ type: "LOGIN_START" });
+            try {
+                const res = axios.post(`/auth/login`, values);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setData((prevData) => ({
-            ...prevData, [name]: value
-        }));
-    };
-    if (Data.username === "" && Data.password === "") {
-        alert("username and password are required!");
-        console.log("username and password are required!");
-    }
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("working..");
-        alert(`Name: ${Data.username}, Email: ${Data.password}`);
+                dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
 
-    }
+            } catch (error) {
+                dispatch({ type: "LOGIN_FAILURE" });
+            }
+        },
+        validationSchema: yup.object({
+            username: yup.string()
+                .required("User Name Required")
+                .min(4, "Name too short min 4 chars")
+                .max(10, "Name too long max 10 chars"),
+            password: yup.string()
+                .required("password Required")
+        })
+    })
 
+    console.log(isFetching);
     return (
         <div className='login'>
             <span className="loginTitle">Log In</span>
-            <form action="" className="loginForm" onSubmit={handleSubmit}>
-                <input type="text" name='username' value={Data.username} onChange={handleChange} className='loginInput' placeholder='Enter your Email..' />
-                <input type="password" name='password' value={Data.password} onChange={handleChange} className='loginInput' placeholder='Enter your Password..' />
-                <Link to='/login' className="loginBtn" >Log In</Link >
-                <Link to='/register' className="registerBtn">Register</Link >
+            <form className="loginForm" >
+                <input type="text" name='username' onChange={formik.handleChange} className='registerInput' placeholder='jon singh' />
+                <span className="text-danger">{formik.errors.username}</span>
+                <input type="password" name='password' onChange={formik.handleChange} className='registerInput' placeholder='**************' />
+                <span className="text-danger">{formik.errors.password}</span>
+                <Link to='/login' type='submit' className="btn loginBtn" disable={isFetching} onClick={formik.handleSubmit} >Log In</Link >
+                <Link to='/register' type='button' className="btn registerBtn">Register</Link >
             </form>
         </div>
     )

@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './topheader.css'
 import usrImage from './user_img.png';
 import { Link, NavLink } from 'react-router-dom';
+import { Context } from '../../context/Context';
 const TopHeader = () => {
-    const user = false;
+    const { user, dispatch } = useContext(Context);
+
+    const logoutHandle = () => {
+        dispatch({ type: "LOGOUT" })
+    }
 
     return (
         <div>
@@ -20,7 +25,7 @@ const TopHeader = () => {
                         <li className="topListItem"><NavLink to='/home'> About </NavLink> </li>
                         <li className="topListItem"><NavLink to='/home'> Contact </NavLink> </li>
                         <li className="topListItem"><NavLink to='/write'> Write </NavLink> </li>
-                        <li className="topListItem"><NavLink to='/'> {user && "Logout"} </NavLink> </li>
+                        <li className="topListItem"><NavLink to='/' onClick={logoutHandle} > {user && "Logout"} </NavLink> </li>
                     </div>
                 </div>
                 <div className="top-right">

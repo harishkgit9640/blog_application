@@ -10,17 +10,18 @@ import Home from './Components/Home/Home';
 import Settings from './Components/setting/Settings';
 import { Route, Routes } from 'react-router-dom';
 import SinglePost from './Components/singlepost/SinglePost';
+import { useContext } from 'react';
+import { Context } from './context/Context';
 
 function App() {
-  const user = false;
+  const { user } = useContext(Context);
   return (
     <>
       <TopHeader />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/home' element={<Home />} />
-        <Route path='/login' element={user ? <Home /> : <Login />} />
         <Route path='/register' element={user ? <Home /> : <Register />} />
+        <Route path='/login' element={user ? <Home /> : <Login />} />
         <Route path='/write' element={user ? <Write /> : <Register />} />
         <Route path='/setting' element={user ? <Settings /> : <Register />} />
         <Route path='/post/:id' element={<SinglePost />} />

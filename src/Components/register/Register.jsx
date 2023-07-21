@@ -7,6 +7,17 @@ import axios from 'axios';
 const Register = () => {
 
     const navigate = useNavigate();
+
+    const registerHandle = async (values) => {
+        try {
+            await axios.post(`/auth/register`, values);
+            // console.log(res.data);
+            navigate('/login');
+        } catch (error) {
+            alert(error);
+        }
+    }
+
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -14,12 +25,7 @@ const Register = () => {
             password: ''
         },
         onSubmit: (values) => {
-            try {
-                axios.post(`/auth/register`, values);
-                navigate('/login');
-            } catch (error) {
-                alert(error);
-            }
+            registerHandle(values);
         },
         validationSchema: yup.object({
             username: yup.string()

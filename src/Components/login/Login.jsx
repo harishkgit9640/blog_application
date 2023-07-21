@@ -6,7 +6,19 @@ import axios from 'axios';
 import * as yup from "yup";
 import { Context } from '../../context/Context';
 const Login = () => {
-    const { dispatch, isFetching } = useContext(Context)
+    const { dispatch } = useContext(Context)
+
+    const loginHandle = async (values) => {
+        dispatch({ type: "LOGIN_START" });
+        try {
+            const res = await axios.post(`/auth/login`, values);
+            // console.log(res.data);
+            dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+
+        } catch (error) {
+            dispatch({ type: "LOGIN_FAILURE" });
+        }
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -14,15 +26,8 @@ const Login = () => {
             password: ''
         },
         onSubmit: (values) => {
-            dispatch({ type: "LOGIN_START" });
-            try {
-                const res = axios.post(`/auth/login`, values);
-
-                dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-
-            } catch (error) {
-                dispatch({ type: "LOGIN_FAILURE" });
-            }
+            // let values1 = JSON.stringify(values);
+            loginHandle(values);
         },
         validationSchema: yup.object({
             username: yup.string()
@@ -34,7 +39,6 @@ const Login = () => {
         })
     })
 
-    console.log(isFetching);
     return (
         <div className='login'>
             <span className="loginTitle">Log In</span>
@@ -43,7 +47,7 @@ const Login = () => {
                 <span className="text-danger">{formik.errors.username}</span>
                 <input type="password" name='password' onChange={formik.handleChange} className='registerInput' placeholder='**************' />
                 <span className="text-danger">{formik.errors.password}</span>
-                <Link to='/login' type='submit' className="btn loginBtn" disable={isFetching} onClick={formik.handleSubmit} >Log In</Link >
+                <Link to='/login' type='submit' className="btn loginBtn" onClick={formik.handleSubmit} >Log In</Link >
                 <Link to='/register' type='button' className="btn registerBtn">Register</Link >
             </form>
         </div>

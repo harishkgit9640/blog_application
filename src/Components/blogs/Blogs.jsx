@@ -2,9 +2,10 @@ import React from 'react'
 import './blog.css'
 import { Link } from 'react-router-dom';
 const Blog = ({ posts }) => {
+    const filePath = "http://localhost:5000/images/";
     return (
         <div className='post' key={posts.id}>
-            {posts.photo ? posts.photo : (
+            {posts.photo ? <img src={filePath + posts.photo} className='postImg' alt="db_img" /> : (
                 <img src="https://www.digitalvidya.com/blog/wp-content/uploads/2019/03/personal-blog-1024x538.jpg" alt="BlogImg" className="postImg" />
             )}
             <div className="postInfo">

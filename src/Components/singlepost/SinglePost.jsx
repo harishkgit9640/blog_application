@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 
 const SinglePost = () => {
+    const filePath = "http://localhost:5000/images/";
     const [post, setPost] = useState([]);
     const params = useParams();
     useEffect(() => {
@@ -17,7 +18,9 @@ const SinglePost = () => {
     return (
         <div className='singlePost'>
             <div className="singlePostWrapper">
-                <img src="https://www.appliedart.com/assets/images/blog/blogging-SMB.png" alt="" className="singlePostImg" />
+                {post.photo ? <img src={filePath + post.photo} className='singlePostImg' alt="db_img" /> : (
+                    <img src="https://www.digitalvidya.com/blog/wp-content/uploads/2019/03/personal-blog-1024x538.jpg" alt="BlogImg" className="singlePostImg" />
+                )}
                 <h1 className="singlePostTitle">
                     {post.title}
                     <div className="singleEdit">

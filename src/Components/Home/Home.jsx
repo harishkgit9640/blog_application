@@ -6,7 +6,6 @@ import axios from 'axios';
 
 const Home = () => {
     const [post, setPost] = useState([]);
-
     useEffect(() => {
         const fetchPost = async () => {
             try {

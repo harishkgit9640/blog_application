@@ -10,6 +10,7 @@ const Write = () => {
         username: user.username,
         title: "",
         desc: "",
+        photo: "",
     });
 
     const handleChange = (e) => {
@@ -19,24 +20,26 @@ const Write = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newPost = { data };
-        console.log(JSON.stringify(newPost));
+        // setData({ ...data, photo: file.name });
+        console.log((data));
 
         if (file) {
             const fileData = new FormData();
             const filename = Date.now() + file.name;
             fileData.append("name", filename)
             fileData.append("file", file)
-            newPost.photo = filename;
+            setData({ ...data, photo: filename });
             try {
                 console.log(fileData);
-                // const postRes = await axios.post(`/upload`, fileData)
+                const img = await axios.post(`/upload`, fileData);
+                console.log(img);
             } catch (error) {
                 console.log(error);
             }
         }
         try {
-            // const postRes = await axios.post(`/post`, newPost)
+            const postRes = await axios.post(`/post`, data);
+            console.log(postRes);
         } catch (error) {
             console.log(error);
         }
@@ -46,8 +49,10 @@ const Write = () => {
 
     return (
         <div className='write'>
-            {file &&
-                <img src={URL.createObjectURL(file)} alt="writeImg" className="writeImg" />}
+            {file ? <img src={URL.createObjectURL(file)} alt="writeImg" className="writeImg" /> : (
+                <img src="https://www.digitalvidya.com/blog/wp-content/uploads/2019/03/personal-blog-1024x538.jpg" alt="writeImg" className="writeImg" />
+            )}
+
             <form className="writeForm">
                 <div className="writeFormGroup">
                     <label htmlFor="fileInput">

@@ -13,6 +13,7 @@ router.post('/register', async (req, res) => {
             password: hasPassword,
         });
         const user = await newUser.save();
+        res.setHeader('Content-Type', 'text/plain');
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json(error);
@@ -23,6 +24,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({ username: req.body.username });
+        res.setHeader('Content-Type', 'text/plain');
         !user && res.status(400).json('Invalid username or password');
         const validated = await bcrypt.compare(req.body.password, user.password);
         !validated && res.status(400).json('Invalid username or password');

@@ -5,7 +5,9 @@ const users = require('./routes/Users');
 const posts = require('./routes/Posts');
 const category = require('./routes/Categories');
 const multer = require('multer');
+const path = require('path');
 const app = express()
+
 // mongodb://localhost:27017
 const url = "mongodb://127.0.0.1:27017/dbblog";
 main().catch(err => console.log(err));
@@ -14,6 +16,8 @@ async function main() {
     // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }
 app.use(express.json());
+app.use("/images", express.static(path.join(__dirname, "/images")));
+
 const port = 5000;
 
 const storage = multer.diskStorage({
@@ -21,7 +25,7 @@ const storage = multer.diskStorage({
         cb(null, "images");
     },
     filename: (req, file, cb) => {
-        cb(null, "new.png");
+        cb(null, req.body.name);
     }
 });
 
@@ -35,6 +39,6 @@ app.use("/api/auth", auth);
 app.use("/api/user", users);
 app.use("/api/post", posts);
 app.use("/api/categories", category);
-app.get('/', (req, res) => res.send('Hello World!'))
+// app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(port, () => console.log(`Server is listening on port ${port}!`))

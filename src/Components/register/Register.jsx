@@ -10,9 +10,9 @@ const Register = () => {
 
     const registerHandle = async (values) => {
         try {
-            await axios.post(`/auth/register`, values);
+            const res = await axios.post(`/auth/register`, values);
             // console.log(res.data);
-            navigate('/login');
+            res && navigate('/login');
         } catch (error) {
             alert(error);
         }

@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './singlePost.css';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Context } from '../../context/Context';
 
 const SinglePost = () => {
+    const { user } = useContext(Context);
+    const navigate = useNavigate();
     const filePath = "http://localhost:5000/images/";
     const [post, setPost] = useState([]);
     const params = useParams();
@@ -15,6 +18,17 @@ const SinglePost = () => {
         fetchPost();
     }, [params.id]);
 
+    const handleDelete = async () => {
+        try {
+            const deleteRes = await axios.delete(`/delete/${params.id}, username:${user.username}`);
+            console.log(deleteRes);
+            deleteRes && navigate('/');
+
+        } catch (error) {
+
+        }
+    }
+
     return (
         <div className='singlePost'>
             <div className="singlePostWrapper">
@@ -23,10 +37,12 @@ const SinglePost = () => {
                 )}
                 <h1 className="singlePostTitle">
                     {post.title}
-                    <div className="singleEdit">
-                        <i className=" singleIcon fa-solid fa-pen-to-square"></i>
-                        <i className=" singleIcon fa-solid fa-trash-can"></i>
-                    </div>
+                    {post.username === user.username && (
+                        <div className="singleEdit">
+                            <i className=" singleIcon fa-solid fa-pen-to-square"></i>
+                            <i className=" singleIcon fa-solid fa-trash-can" onClick={handleDelete}></i>
+                        </div>
+                    )}
                 </h1>
 
                 <div className="singlePostInfo">

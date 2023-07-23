@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react'
 import './write.css';
 import axios from 'axios';
 import { Context } from '../../context/Context';
+import { useNavigate } from 'react-router-dom';
 
 const Write = () => {
     const { user } = useContext(Context);
+    const navigate = useNavigate();
     const [file, setFile] = useState(null);
     const [data, setData] = useState({
         username: user.username,
@@ -20,9 +22,6 @@ const Write = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setData({ ...data, photo: file.name });
-        console.log((data));
-
         if (file) {
             const fileData = new FormData();
             const filename = Date.now() + file.name;
@@ -39,6 +38,7 @@ const Write = () => {
         }
         try {
             const postRes = await axios.post(`/post`, data);
+            postRes && navigate('/');
             console.log(postRes);
         } catch (error) {
             console.log(error);

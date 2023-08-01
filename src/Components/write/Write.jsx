@@ -30,8 +30,8 @@ const Write = () => {
             setData({ ...data, photo: filename });
             try {
                 console.log(fileData);
-                const img = await axios.post(`/upload`, fileData);
-                console.log(img);
+                const imgRes = await axios.post(`/upload`, fileData);
+                console.log(imgRes);
             } catch (error) {
                 console.log(error);
             }

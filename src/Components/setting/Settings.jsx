@@ -1,8 +1,52 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import './settings.css';
 import Sidebar from '../sidebar/Sidebar'
+import axios from 'axios';
+import { Context } from '../../context/Context';
+import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
+
+    const { user } = useContext(Context);
+    const navigate = useNavigate();
+    const [file, setFile] = useState(null);
+    const [data, setData] = useState({
+        username: "",
+        email: "",
+        password: "",
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value });
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (file) {
+            const fileData = new FormData();
+            const filename = Date.now() + file.name;
+            fileData.append("name", filename)
+            fileData.append("file", file)
+            setData({ ...data, photo: filename });
+            try {
+                console.log(fileData);
+                const imgRes = await axios.post(`/upload`, fileData);
+                console.log(imgRes);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        try {
+            const postRes = await axios.post(`/auth/register`, data);
+            postRes && navigate('/');
+            console.log(postRes);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     return (
         <div className='setting'>
             <div className="settingWrapper">
@@ -18,14 +62,15 @@ const Settings = () => {
                             <i className="settingPPIcon fa fa-user-circle"></i>
                         </label>
                         <input type="file" id='fileInput' style={{ display: "none" }} />
+                        <input type="file" onChange={(e) => setFile(e.target.files[0])} id="fileInput" style={{ display: "none" }} />
                     </div>
-                    <label htmlFor="name">User Name</label>
-                    <input type="text" placeholder='Harish' />
+                    <label htmlFor="username">User Name</label>
+                    <input type="text" value={data.username} onChange={handleChange} placeholder='john' />
                     <label htmlFor="email">User email</label>
-                    <input type="email" placeholder='hk@gmail.com' />
+                    <input type="email" value={data.email} onChange={handleChange} placeholder='hk@gmail.com' />
                     <label htmlFor="password">User password</label>
-                    <input type="password" placeholder='*******' />
-                    <button className='settingSubmit'>Update</button>
+                    <input type="password" value={data.password} onChange={handleChange} placeholder='*******' />
+                    <button className='settingSubmit' onClick={handleSubmit} >Update</button>
                 </form>
             </div>
             <Sidebar />

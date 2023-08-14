@@ -9,7 +9,7 @@ const Settings = () => {
 
     const { user } = useContext(Context);
     const navigate = useNavigate();
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState("");
     const [data, setData] = useState({
         username: "",
         email: "",
@@ -22,25 +22,29 @@ const Settings = () => {
     }
 
     const handleSubmit = async (e) => {
+        console.log(data);
         e.preventDefault();
         if (file) {
             const fileData = new FormData();
             const filename = Date.now() + file.name;
             fileData.append("name", filename)
             fileData.append("file", file)
+        console.log(fileData);
+
             setData({ ...data, photo: filename });
             try {
                 console.log(fileData);
-                const imgRes = await axios.post(`/upload`, fileData);
-                console.log(imgRes);
+                // const imgRes = await axios.post(`/upload`, fileData);
+                // console.log(imgRes);
             } catch (error) {
                 console.log(error);
             }
         }
         try {
-            const postRes = await axios.post(`/auth/register`, data);
-            postRes && navigate('/');
-            console.log(postRes);
+            console.log("comming..");
+            // const postRes = await axios.post(`/auth/register`, data);
+            // postRes && navigate('/');
+            // console.log(postRes);
         } catch (error) {
             console.log(error);
         }
@@ -65,11 +69,11 @@ const Settings = () => {
                         <input type="file" onChange={(e) => setFile(e.target.files[0])} id="fileInput" style={{ display: "none" }} />
                     </div>
                     <label htmlFor="username">User Name</label>
-                    <input type="text" value={data.username} onChange={handleChange} placeholder='john' />
+                    <input type="text" name="username" value={data.username} onChange={handleChange} placeholder='john' />
                     <label htmlFor="email">User email</label>
-                    <input type="email" value={data.email} onChange={handleChange} placeholder='hk@gmail.com' />
+                    <input type="email" name="email" value={data.email} onChange={handleChange} placeholder='hk@gmail.com' />
                     <label htmlFor="password">User password</label>
-                    <input type="password" value={data.password} onChange={handleChange} placeholder='*******' />
+                    <input type="password" name="password" value={data.password} onChange={handleChange} placeholder='*******' />
                     <button className='settingSubmit' onClick={handleSubmit} >Update</button>
                 </form>
             </div>

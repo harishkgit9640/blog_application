@@ -29,7 +29,7 @@ const Settings = () => {
             const filename = Date.now() + file.name;
             fileData.append("name", filename)
             fileData.append("file", file)
-        console.log(fileData);
+            console.log(fileData);
 
             setData({ ...data, photo: filename });
             try {

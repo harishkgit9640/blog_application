@@ -13,7 +13,7 @@ router.post('/register', async (req, res) => {
             password: hasPassword,
         });
         const user = await newUser.save();
-        res.setHeader('Content-Type', 'text/plain');
+        res.setHeader('Content-Type', 'application/json');
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json(error);
